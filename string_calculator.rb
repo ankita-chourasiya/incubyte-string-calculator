@@ -8,7 +8,12 @@ class StringCalculator
                       numbers.split(/,|\n/)
                     end
 
-    numbers_array.map(&:to_i).sum
+    numbers_array = numbers_array.map(&:to_i)
+
+    negatives = numbers_array.select { |num| num < 0 }
+    raise "negatives not allowed: #{negatives.join(', ')}" unless negatives.empty?
+
+    numbers_array.sum
   end
 
   def self.change_delimiter(numbers)
