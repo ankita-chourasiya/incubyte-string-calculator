@@ -54,5 +54,11 @@ RSpec.describe StringCalculator do
         expect(StringCalculator.add("3,1000,1001,2")).to eq(1005)
       end
     end
+
+    context "when given a custom delimiter of any length" do
+      it "correctly sums numbers separated by custom delimiters of any length" do
+        expect(StringCalculator.add("//[***]\n1***2***3")).to eq(6)
+      end
+    end
   end
 end

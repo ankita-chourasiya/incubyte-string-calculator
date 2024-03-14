@@ -29,6 +29,8 @@ class StringCalculator
   def self.change_delimiter(numbers)
     delimiter, numbers = numbers.split("\n", 2)
     delimiter = delimiter[2..-1]
+
+    delimiter.gsub!(/\[|\]/, '') if delimiter.start_with?('[')
     numbers.split(delimiter)
   end
 end
