@@ -46,5 +46,13 @@ RSpec.describe StringCalculator do
         expect(StringCalculator.GetCalledCount).to eq(2)
       end
     end
+
+    context "when given numbers larger than 1000" do
+      it "ignores numbers larger than 1000 in the sum" do
+        expect(StringCalculator.add("2,1001")).to eq(2)
+        expect(StringCalculator.add("1002,2")).to eq(2)
+        expect(StringCalculator.add("3,1000,1001,2")).to eq(1005)
+      end
+    end
   end
 end
