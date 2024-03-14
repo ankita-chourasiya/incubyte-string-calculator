@@ -1,5 +1,9 @@
 class StringCalculator
+  @add_count = 0
+
   def self.add(numbers)
+    @add_count += 1
+
     return 0 if numbers.empty?
 
     numbers_array = if numbers.start_with?("//")
@@ -14,6 +18,10 @@ class StringCalculator
     raise "negatives not allowed: #{negatives.join(', ')}" unless negatives.empty?
 
     numbers_array.sum
+  end
+
+  def self.GetCalledCount
+    @add_count
   end
 
   def self.change_delimiter(numbers)

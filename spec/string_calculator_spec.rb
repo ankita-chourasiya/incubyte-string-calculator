@@ -37,5 +37,14 @@ RSpec.describe StringCalculator do
         expect { StringCalculator.add("1,-2,3,-4") }.to raise_error(RuntimeError, "negatives not allowed: -2, -4")
       end
     end
+
+    context ".GetCalledCount" do
+      it "returns the number of times Add was invoked" do
+        StringCalculator.instance_variable_set(:@add_count, 0)
+        StringCalculator.add("1")
+        StringCalculator.add("2,3")
+        expect(StringCalculator.GetCalledCount).to eq(2)
+      end
+    end
   end
 end
