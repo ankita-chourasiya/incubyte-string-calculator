@@ -15,6 +15,7 @@ Running Tests
 This project uses RSpec for testing. To run the tests, first, make sure you have RSpec installed:
 
 ```gem install rspec```
+
 Then, navigate to the project directory and run:
 
 ```rspec```
