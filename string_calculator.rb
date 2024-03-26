@@ -6,13 +6,7 @@ class StringCalculator
 
     return 0 if numbers.empty?
 
-    numbers_array = if numbers.start_with?("//")
-                      change_delimiter(numbers)
-                    else
-                      numbers.split(/,|\n/)
-                    end
-
-    numbers_array = numbers_array.map(&:to_i)
+    numbers_array = get_numbers(numbers)
 
     negatives = numbers_array.select { |num| num < 0 }
     raise "negatives not allowed: #{negatives.join(', ')}" unless negatives.empty?
@@ -20,6 +14,11 @@ class StringCalculator
     numbers_array.reject! { |num| num > 1000 }
 
     numbers_array.sum
+  end
+
+  def self.get_numbers(numbers)
+    numbers_array = numbers.start_with?("//") ? change_delimiter(numbers) : numbers.split(/,|\n/)
+    numbers_array.map(&:to_i)
   end
 
   def self.GetCalledCount
