@@ -8,8 +8,7 @@ class StringCalculator
 
     numbers_array = get_numbers(numbers)
 
-    negatives = numbers_array.select { |num| num < 0 }
-    raise "negatives not allowed: #{negatives.join(', ')}" unless negatives.empty?
+    reject_negative_number(numbers_array)
 
     numbers_array.reject! { |num| num > 1000 }
 
@@ -19,6 +18,11 @@ class StringCalculator
   def self.get_numbers(numbers)
     numbers_array = numbers.start_with?("//") ? change_delimiter(numbers) : numbers.split(/,|\n/)
     numbers_array.map(&:to_i)
+  end
+
+  def self.reject_negative_number(numbers)
+    negatives = numbers.select { |num| num < 0 }
+    raise "negatives not allowed: #{negatives.join(', ')}" unless negatives.empty?
   end
 
   def self.GetCalledCount
