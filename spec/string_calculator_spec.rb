@@ -63,7 +63,7 @@ RSpec.describe StringCalculator do
 
     context "when given a custom delimiter is star" do
       it "correctly multiple numbers separated by custom delimiters of any length" do
-        expect(StringCalculator.add("//*\n1*2*3")).to eq(6)
+        expect(StringCalculator.add("//*\n4*2*3")).to eq(24)
       end
     end
   end
