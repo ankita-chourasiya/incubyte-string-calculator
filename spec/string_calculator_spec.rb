@@ -43,7 +43,7 @@ RSpec.describe StringCalculator do
         StringCalculator.instance_variable_set(:@add_count, 0)
         StringCalculator.add("1")
         StringCalculator.add("2,3")
-        expect(StringCalculator.GetCalledCount).to eq(2)
+        expect(StringCalculator.get_called_count).to eq(2)
       end
     end
 
