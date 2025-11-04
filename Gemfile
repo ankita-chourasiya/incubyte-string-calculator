@@ -7,3 +7,4 @@ ruby '3.0.5'
 # Core dependencies for running tests and checking coverage
 gem 'rspec'
 gem 'simplecov', require: false
+gem 'simplecov-json', require: false

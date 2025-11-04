@@ -1,5 +1,6 @@
 # Start SimpleCov before anything else
 require 'simplecov'
+require 'simplecov-json'
 
 SimpleCov.start do
   add_filter '/spec/'    # Ignore test files from coverage
