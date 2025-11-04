@@ -2,11 +2,20 @@
 require 'simplecov'
 require 'simplecov-json'
 
+SimpleCov.formatters = SimpleCov::Formatter::MultiFormatter.new([
+  SimpleCov::Formatter::HTMLFormatter,
+  SimpleCov::Formatter::JSONFormatter
+])
+
 SimpleCov.start do
   add_filter '/spec/'    # Ignore test files from coverage
   add_filter '/config/'  # (optional) Ignore config files
   enable_coverage :branch
   minimum_coverage 90    # Set a threshold; CI will fail if below 90%
+end
+
+SimpleCov.at_exit do
+  SimpleCov.result.format!
 end
 
 puts "✅ SimpleCov started — coverage report will be available in coverage/index.html"
