@@ -1,0 +1,32 @@
+name: Check RSpec Tests (presence only)
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  check-rspec-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Check if test files exist
+        run: |
+          echo "Checking for RSpec test files..."
+
+          # List any *_spec.rb files under spec/
+          TEST_FILES=$(ls spec/*_spec.rb 2>/dev/null || true)
+
+          if [ -z "$TEST_FILES" ]; then
+            echo "❌ No RSpec test files found!"
+            echo "Please include at least one *_spec.rb test file."
+            exit 1
+          else
+            echo "✅ Found test files:"
+            echo "$TEST_FILES"
+          fi
