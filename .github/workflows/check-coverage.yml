@@ -1,0 +1,56 @@
+name: Check RSpec Test Coverage
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  check-coverage:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.0.5'
+
+      - name: Install dependencies
+        run: |
+          gem install bundler
+          bundle install
+
+      - name: Install jq and bc
+        run: sudo apt-get update && sudo apt-get install -y jq bc
+
+      - name: Run RSpec with SimpleCov
+        run: |
+          echo "Running RSpec tests with SimpleCov..."
+          bundle exec rspec || true  # Allow tests to complete even if they fail
+
+      - name: Check coverage threshold
+        run: |
+          echo "Checking coverage report..."
+          COVERAGE_FILE="coverage/.last_run.json"
+
+          if [ ! -f "$COVERAGE_FILE" ]; then
+            echo "❌ Coverage file not found. Make sure SimpleCov is configured in spec_helper.rb."
+            exit 1
+          fi
+
+          COVERAGE_PERCENT=$(jq '.result.covered_percent' "$COVERAGE_FILE")
+          echo "Current coverage: $COVERAGE_PERCENT%"
+
+          MINIMUM_COVERAGE=80
+
+          if (( $(echo "$COVERAGE_PERCENT < $MINIMUM_COVERAGE" | bc -l) )); then
+            echo "❌ Coverage is below ${MINIMUM_COVERAGE}%!"
+            exit 1
+          else
+            echo "✅ Coverage meets minimum requirement (${MINIMUM_COVERAGE}%)."
+          fi
