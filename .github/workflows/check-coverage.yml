@@ -36,11 +36,14 @@ jobs:
       - name: Check coverage threshold
         run: |
           echo "Checking coverage report..."
-          COVERAGE_FILE="coverage/.resultset.json"
+          COVERAGE_FILE="coverage/coverage.json"
 
-          KEY=$(jq -r 'keys[0]' "$COVERAGE_FILE")
+          if [ ! -f "$COVERAGE_FILE" ]; then
+            echo "❌ Coverage file not found: $COVERAGE_FILE"
+            exit 1
+          fi
 
-          COVERAGE_PERCENT=$(jq -r --arg KEY "$KEY" '.[$KEY].coverage_percent // .[$KEY].result.covered_percent' "$COVERAGE_FILE")
+          COVERAGE_PERCENT=$(jq -r '.metrics.covered_percent' "$COVERAGE_FILE")
 
           if [ "$COVERAGE_PERCENT" = "null" ] || [ -z "$COVERAGE_PERCENT" ]; then
             echo "❌ Could not extract coverage percentage from $COVERAGE_FILE"
